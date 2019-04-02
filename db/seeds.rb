@@ -57,6 +57,14 @@ userfood1 = UserFood.create(user_id: matthew.id,
                          expiration_date: "04/4/2019",
                          expired: false)
 
+userfood2 = UserFood.create(user_id: matthew.id,
+                        food_id: spinach.id,
+                        active: true,
+                        amount: "",
+                        price: 5.00,
+                        expiration_date: "04/4/2019",
+                        expired: false)
+
 recipe1 = Recipe.create(title: "BBQ Chicken",
                        description: "Amazing chicken dish",
                        instructions:"1.Cut chicken 2.Cook chicken",
