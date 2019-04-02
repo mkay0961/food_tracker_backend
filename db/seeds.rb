@@ -24,25 +24,25 @@ matthew = User.create(username: "mkay0961",
                       profile_image: "blank")
 
 mango = Food.create(name: "Mango",
-                    catagory: "Produce" ,
+                    category: "Produce" ,
                     default_expiration: "07/25/2020" )
 
 spinach = Food.create(name: "Spinach",
-                      catagory: "Produce" ,
+                      category: "Produce" ,
                       default_expiration: "07/25/2020" )
 
 bbqsauce = Food.create(name: "BBQ Sauce",
-                      catagory: "Pantry" ,
+                      category: "Pantry" ,
                       default_expiration: "07/25/2020" )
 
 
 chicken = Food.create(name: "Chicken",
-                      catagory: "Poutry" ,
+                      category: "Poutry" ,
                       default_expiration: "07/25/2020" )
 
 
 limes = Food.create(name: "Limes",
-                    catagory: "Produce" ,
+                    category: "Produce" ,
                     default_expiration: "07/25/2020" )
 
 
@@ -68,7 +68,7 @@ userfood2 = UserFood.create(user_id: matthew.id,
 recipe1 = Recipe.create(title: "BBQ Chicken",
                        description: "Amazing chicken dish",
                        instructions:"1.Cut chicken 2.Cook chicken",
-                       catagory: "Dinner")
+                       category: "Dinner")
 
 rec1food1 = RecipeFood.create(recipe_id: recipe1.id,
                               food_id: bbqsauce.id,
@@ -81,7 +81,7 @@ rec1food2 = RecipeFood.create(recipe_id: recipe1.id,
 recipe2 = Recipe.create(title: "Mango Chicken",
                        description: "Amazing chicken dish",
                        instructions:"1.Cut chicken 2.Cook chicken",
-                       catagory: "Dinner")
+                       category: "Dinner")
 
 rec2food1 = RecipeFood.create(recipe_id: recipe2.id,
                               food_id: mango.id,
