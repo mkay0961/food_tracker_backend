@@ -1,4 +1,11 @@
 require 'csv'
+User.destroy_all
+UserFood.destroy_all
+Food.destroy_all
+UserRecipe.destroy_all
+Recipe.destroy_all
+RecipeFood.destroy_all
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 #
@@ -7,9 +14,9 @@ require 'csv'
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-# csv_text = File.read('/Users/MatthewKay/Development/Flatiron/Mod5/Food_Tracker/food_tracker_backend/db/Test.csv')
-# csv = CSV.parse(csv_text, :headers => true)
-#
+csv_text = File.read('/Users/MatthewKay/Development/Flatiron/Mod5/Food_Tracker/food_tracker_backend/db/Test.csv')
+csv = CSV.parse(csv_text, :headers => true)
+
 # puts csv.count
 # file = File.read("/Users/MatthewKay/Development/Flatiron/Mod5/Food_Tracker/food_tracker_backend/db/file1.json")
 # data = JSON.parse(file)
@@ -17,20 +24,14 @@ require 'csv'
 #   puts data[chr]["title"]
 # }
 
-# for x in (2...csv.count) do
-#   Food.find_or_create_by(name: csv[x]["Name"],
-#                          category: csv[x]["Categories"] ,
-#                          default_expiration: "07/25/2020" )
-# end
+for x in (2...csv.count) do
+  Food.find_or_create_by(name: csv[x]["Name"],
+                         category: csv[x]["Categories"] ,
+                         default_expiration: "07/25/2020" )
+end
 
 puts "Destroying all"
 
-User.destroy_all
-UserFood.destroy_all
-Food.destroy_all
-UserRecipe.destroy_all
-Recipe.destroy_all
-RecipeFood.destroy_all
 
 puts "Done destroying, starting to seed"
 

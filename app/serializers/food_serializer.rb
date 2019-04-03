@@ -1,3 +1,3 @@
 class FoodSerializer < ActiveModel::Serializer
-  attributes :id, :name, :category
+  attributes :id, :name, :category, :default_expiration
 end

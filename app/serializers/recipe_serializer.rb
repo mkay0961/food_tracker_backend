@@ -6,12 +6,11 @@ class RecipeSerializer < ActiveModel::Serializer
     self.object.recipe_foods.each_with_index do |item, i|
       obj = {}
       obj["food_id"]=item.food_id
-      obj["name2"] = self.object.foods[i]["name"]
+      # obj["name2"] = self.object.foods[i]["name"]
       obj["name"] = Food.find(item.food_id)["name"]
       obj["amount"] = item.amount
       rtn.push(obj)
     end
-
     return rtn
   end
 end
