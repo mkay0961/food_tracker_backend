@@ -1,0 +1,11 @@
+function sum(arr, num){
+  let rtn = []
+  for(let i = 0; i < arr.length; i++){
+      for(let k = 0; k < arr.length; k++){
+        if(arr[i] + arr[k] === num && i !== k){
+          rtn.push([arr[i],arr[k]])
+        }
+      }
+  }
+  return rtn
+}
