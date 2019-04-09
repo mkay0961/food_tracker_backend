@@ -7,23 +7,43 @@ class UserFoodsController < ApplicationController
 
   def create
       @user = User.find(params[:id])
+      byebug
       if(!params["food"].nil?)
         params["food"].each do |food|
-        food1 = UserFood.find_by(user_id: @user.id,food_id: food["id"])
-        if(food1.nil?)
-          UserFood.create(user_id: @user.id,
-                                  food_id: food["id"],
-                                  active: food["active"],
-                                  amount: food["amount"],
-                                  price: food["price"],
-                                  expiration_date: food["expiration_date"],
-                                  expired: food["expired"])
-        else
-          newAmount = addAmount(food1.amount,food["amount"] )
-          food1.update(amount: newAmount)
-        end
+          foodItem = UserFood.find_by(user_id: @user.id,food_id: food["id"])
+          if(foodItem.nil?)
+            UserFood.create(user_id: @user.id,
+                                    food_id: food["id"],
+                                    active: food["active"],
+                                    amount: food["amount"],
+                                    price: food["price"],
+                                    expiration_date: food["expiration_date"],
+                                    expired: food["expired"])
+          else
+            newAmount = addAmount(foodItem.amount,food["amount"] )
+            foodItem.update(amount: newAmount)
+          end
         end
       end
       render json: @user
+  end
+
+  def eat
+    @user = User.find(params[:id])
+    foods = params["food"]
+    puts foods
+    if(!foods.nil?)
+      foods.each do |food|
+        foodItem = UserFood.find_by(user_id: @user.id, food_id: food["food_id"])
+        newAmount = foodItem.amount.to_i-food["amount"].to_i
+        unit = food["amount"].split(" ")[1]
+        if(!(newAmount < 0) && newAmount != 0 )
+          foodItem.update(amount: "#{newAmount} #{unit}")
+        elsif(newAmount == 0)
+          foodItem.destroy
+        end
+      end
+    end
+    render json: @user
   end
 end

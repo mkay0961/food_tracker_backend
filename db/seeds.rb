@@ -71,7 +71,7 @@ limes = Food.create(name: "Limes",
 userfood1 = UserFood.create(user_id: matthew.id,
                          food_id: mango.id,
                          active: true,
-                         amount: "",
+                         amount: "1 mango",
                          price: 2.00,
                          expiration_date: "04/4/2019",
                          expired: false)
@@ -79,7 +79,7 @@ userfood1 = UserFood.create(user_id: matthew.id,
 userfood2 = UserFood.create(user_id: matthew.id,
                         food_id: spinach.id,
                         active: true,
-                        amount: "",
+                        amount: "1 bundle",
                         price: 5.00,
                         expiration_date: "04/4/2019",
                         expired: false)
@@ -87,7 +87,7 @@ userfood2 = UserFood.create(user_id: matthew.id,
 userfood3 = UserFood.create(user_id: matthew.id,
                         food_id: chicken.id,
                         active: true,
-                        amount: "",
+                        amount: "1 pound",
                         price: 10.00,
                         expiration_date: "04/4/2019",
                         expired: false)
@@ -112,7 +112,7 @@ recipe2 = Recipe.create(title: "Mango Chicken",
 
 rec2food1 = RecipeFood.create(recipe_id: recipe2.id,
                               food_id: mango.id,
-                              amount: "2")
+                              amount: "2 mango")
 
 rec2food2 = RecipeFood.create(recipe_id: recipe2.id,
                               food_id: chicken.id,
