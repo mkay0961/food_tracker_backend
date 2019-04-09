@@ -8,7 +8,6 @@ class UserSerializer < ActiveModel::Serializer
       obj = {}
       food = Food.find(item.food_id)
       obj["food_id"]=item.food_id
-      # obj["name2"] = self.object.foods[i]["name"]
       obj["name"] = food["name"]
       obj["category"] = food["category"]
       obj["amount"] = item["amount"]

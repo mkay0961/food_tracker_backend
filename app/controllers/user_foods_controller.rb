@@ -1,11 +1,9 @@
 class UserFoodsController < ApplicationController
-
   def addAmount(amount1, amount2)
     newAmount1 = amount1.split(" ")
     newAmount2 = amount1.split(" ")
     return "#{newAmount1[0].to_i + newAmount2[0].to_i} #{newAmount1[1]}"
   end
-
 
   def create
       @user = User.find(params[:id])
