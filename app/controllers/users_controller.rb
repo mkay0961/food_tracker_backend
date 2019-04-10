@@ -9,4 +9,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def create
+    @newUser = User.create(username: params["username"],
+                          password: params["password"],
+                          first_name: params["firstname"],
+                          last_name: params["lastname"],
+                          email: params["email"],
+                          profile_image: params["image"])
+    render json: @newUser.genUser()
+  end
+
 end
