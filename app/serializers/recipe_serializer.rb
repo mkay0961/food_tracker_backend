@@ -12,4 +12,5 @@ class RecipeSerializer < ActiveModel::Serializer
     end
     return rtn
   end
+  
 end

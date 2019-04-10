@@ -1,4 +1,5 @@
 class UserFoodsController < ApplicationController
+
   def addAmount(amount1, amount2)
     newAmount1 = amount1.split(" ")
     newAmount2 = amount1.split(" ")
@@ -27,7 +28,7 @@ class UserFoodsController < ApplicationController
           end
         end
       end
-      render json: @user
+      render json: @user.genUser()
     end
   end
 
@@ -50,7 +51,8 @@ class UserFoodsController < ApplicationController
           end
         end
       end
-      render json: @user
+      render json: @user.genUser()
     end
   end
+  
 end
