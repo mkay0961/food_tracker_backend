@@ -6,8 +6,10 @@ class UserFoodsController < ApplicationController
   end
 
   def create
-      @user = User.find(params[:id])
-      byebug
+    token = request.headers["Authentication"].split(' ')[1]
+    payload = decode(token)
+    @user = User.find(payload["user_id"])
+    if @user
       if(!params["food"].nil?)
         params["food"].each do |food|
           foodItem = UserFood.find_by(user_id: @user.id,food_id: food["id"])
@@ -26,24 +28,29 @@ class UserFoodsController < ApplicationController
         end
       end
       render json: @user
+    end
   end
 
   def eat
-    @user = User.find(params[:id])
-    foods = params["food"]
-    puts foods
-    if(!foods.nil?)
-      foods.each do |food|
-        foodItem = UserFood.find_by(user_id: @user.id, food_id: food["food_id"])
-        newAmount = foodItem.amount.to_i-food["amount"].to_i
-        unit = food["amount"].split(" ")[1]
-        if(!(newAmount < 0) && newAmount != 0 )
-          foodItem.update(amount: "#{newAmount} #{unit}")
-        elsif(newAmount == 0)
-          foodItem.destroy
+    token = request.headers["Authentication"].split(' ')[1]
+    payload = decode(token)
+    @user = User.find(payload["user_id"])
+    if @user
+      foods = params["food"]
+      puts foods
+      if(!foods.nil?)
+        foods.each do |food|
+          foodItem = UserFood.find_by(user_id: @user.id, food_id: food["food_id"])
+          newAmount = foodItem.amount.to_i-food["amount"].to_i
+          unit = food["amount"].split(" ")[1]
+          if(!(newAmount < 0) && newAmount != 0 )
+            foodItem.update(amount: "#{newAmount} #{unit}")
+          elsif(newAmount == 0)
+            foodItem.destroy
+          end
         end
       end
+      render json: @user
     end
-    render json: @user
   end
 end

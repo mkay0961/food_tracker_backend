@@ -2,7 +2,6 @@ class AuthController < ApplicationController
   def create
     @user = User.find_by(username: params[:username])
     if @user && @user.authenticate(params[:password])
-      #username is found AND password matches
       payload = {user_id: @user.id}
       token = encode(payload)
       render json: {

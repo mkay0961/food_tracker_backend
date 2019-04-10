@@ -1,24 +1,30 @@
 class UserRecipesController < ApplicationController
   def create
-    userId = params[:userId]
-    recipeId = params[:recipeId]
+    token = request.headers["Authentication"].split(' ')[1]
+    payload = decode(token)
+    @user = User.find(payload["user_id"])
+    if @user
 
-    user = User.find(userId)
+      recipeId = params[:recipeId]
 
-    UserRecipe.create(user_id: userId, recipe_id: recipeId, mine: false)
+      UserRecipe.create(user_id: @user.id, recipe_id: recipeId, mine: false)
 
-    render json: user
+      render json: @user
+    end
   end
 
   def destroy
-    userId = params[:userId]
-    recipeId = params[:recipeId]
+    token = request.headers["Authentication"].split(' ')[1]
+    payload = decode(token)
+    @user = User.find(payload["user_id"])
+    if @user
 
-    user = User.find(userId)
+      recipeId = params[:recipeId]
 
-    favRecipe = UserRecipe.find_by(user_id: userId, recipe_id: recipeId)
-    favRecipe.destroy
+      favRecipe = UserRecipe.find_by(user_id: @user.id, recipe_id: recipeId)
+      favRecipe.destroy
 
-    render json: user
+      render json: @user.id
+    end
   end
 end
