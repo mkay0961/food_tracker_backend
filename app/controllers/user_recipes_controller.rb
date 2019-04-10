@@ -24,7 +24,7 @@ class UserRecipesController < ApplicationController
       favRecipe = UserRecipe.find_by(user_id: @user.id, recipe_id: recipeId)
       favRecipe.destroy
 
-      render json: @user.id
+      render json: @user
     end
   end
 end
