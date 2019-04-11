@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 2019_04_02_124518) do
     t.string "amount"
     t.decimal "price"
     t.date "expiration_date"
+    t.date "throw_away"
     t.boolean "expired"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

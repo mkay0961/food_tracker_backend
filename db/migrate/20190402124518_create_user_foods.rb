@@ -7,6 +7,7 @@ class CreateUserFoods < ActiveRecord::Migration[5.2]
       t.string :amount
       t.decimal :price
       t.date :expiration_date
+      t.date :throw_away
       t.boolean :expired
 
       t.timestamps

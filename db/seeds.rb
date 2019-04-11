@@ -76,26 +76,36 @@ limes = Food.create(name: "Limes",
 
 userfood1 = UserFood.create(user_id: matthew.id,
                          food_id: mango.id,
-                         active: true,
+                         active: false,
                          amount: "1 mango",
                          price: 2.00,
-                         expiration_date: "04/4/2019",
-                         expired: false)
+                         expiration_date: "2019-2-4",
+                         throw_away: "2019-2-6",
+                         created_at: "2019-2-1",
+                         expired: true)
 
 userfood2 = UserFood.create(user_id: matthew.id,
                         food_id: spinach.id,
                         active: true,
                         amount: "2 cup",
                         price: 5.00,
-                        expiration_date: "04/4/2019",
+                        expiration_date: DateTime.now,
                         expired: false)
-
+# 1000.times do
+userfood2 = UserFood.create(user_id: matthew.id,
+                        food_id: spinach.id,
+                        active: true,
+                        amount: "2 cup",
+                        price: 5.00,
+                        expiration_date: DateTime.now,
+                        expired: false)
+# end
 userfood2 = UserFood.create(user_id: matthew.id,
                         food_id: spinach.id,
                         active: true,
                         amount: "3 cup",
                         price: 5.00,
-                        expiration_date: "04/4/2019",
+                        expiration_date: "2019-4-10",
                         expired: false)
 
 userfood3 = UserFood.create(user_id: matthew.id,
@@ -103,7 +113,8 @@ userfood3 = UserFood.create(user_id: matthew.id,
                         active: true,
                         amount: "1 pound",
                         price: 10.00,
-                        expiration_date: "04/4/2019",
+                        expiration_date: "2019-3-4",
+                        created_at: "2019-3-1",
                         expired: false)
 
 userfood3 = UserFood.create(user_id: matthew.id,
@@ -111,13 +122,14 @@ userfood3 = UserFood.create(user_id: matthew.id,
                         active: true,
                         amount: "6 pound",
                         price: 13.00,
-                        expiration_date: "04/5/2019",
+                        expiration_date: DateTime.now,
                         expired: false)
 
 recipe1 = Recipe.create(title: "BBQ Chicken",
                        description: "Amazing chicken dish",
                        instructions:"1.Cut chicken 2.Cook chicken",
                        category: "Dinner")
+
 
 rec1food1 = RecipeFood.create(recipe_id: recipe1.id,
                               food_id: bbqsauce.id,
@@ -126,7 +138,6 @@ rec1food1 = RecipeFood.create(recipe_id: recipe1.id,
 rec1food2 = RecipeFood.create(recipe_id: recipe1.id,
                               food_id: chicken.id,
                               amount: "1 pound")
-
 recipe2 = Recipe.create(title: "Mango Chicken",
                        description: "Amazing chicken dish",
                        instructions:"1.Cut chicken 2.Cook chicken",
@@ -142,7 +153,7 @@ rec2food2 = RecipeFood.create(recipe_id: recipe2.id,
 
 
 userRecipe = UserRecipe.create(user_id: matthew.id,
-                               recipe_id: recipe2.id,
+                               recipe_id: recipe1.id,
                                mine: false)
 
 puts "Done seeding"

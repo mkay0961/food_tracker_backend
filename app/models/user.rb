@@ -47,16 +47,21 @@ class User < ApplicationRecord
     return rtn
   end
 
+
+
   def genFoods()
+    expired = []
     rtn = []
     ids = []
+    ids2 = []
 
     self.user_foods.each_with_index do |item, i|
       # foodObj = {}
       # dopObj = {}
       food = Food.find(item.food_id)
       puts item.nil?
-      if (ids.include?(item.food_id))
+    if(item.active && !item.expired)
+      if (ids.include?(item.food_id) )
         dopObj = {}
         rtn.each do |item2|
           if(item.food_id == item2["food_id"])
@@ -91,7 +96,44 @@ class User < ApplicationRecord
 
       ids.push(item.food_id)
 
+    elsif(item.active && item.expired)
+      puts "not active"
+      if (ids2.include?(item.food_id) )
+        dopObj = {}
+        expired.each do |item2|
+          if(item.food_id == item2["food_id"])
+            dopObj["user_food_id"] = item.id
+            dopObj["amount"] = item["amount"]
+            dopObj["expiration_date"] = item["expiration_date"]
+            dopObj["price"] = item["price"]
+            # dopObj["expired"] = DateTime.now > item["expiration_date"].to_datetime
+            dopObj["expired"] = item["expired"]
+            item2["specific_instances"].push(dopObj)
+          end
+        end
+
+      else
+        foodObj = {}
+        dopObj = {}
+        foodObj["specific_instances"] = []
+        foodObj["food_id"] = item.food_id
+        foodObj["name"] = food["name"]
+        foodObj["unit"] = food["unit"]
+        foodObj["image"] = food["image"]
+        foodObj["category"] = food["category"]
+        # foodObj["combined_amount"] = "UPDATE ME"
+        dopObj["user_food_id"] = item.id
+        dopObj["amount"] = item["amount"]
+        # dopObj["expired"] = DateTime.now > item["expiration_date"].to_datetime
+        dopObj["expired"] = item["expired"]
+        dopObj["expiration_date"] = item["expiration_date"]
+        foodObj["specific_instances"].push(dopObj)
+        expired.push(foodObj)
+      end
+
+      ids2.push(item.food_id)
     end
+
     # byebug
 
     rtn.each do |item3|
@@ -107,11 +149,25 @@ class User < ApplicationRecord
         item3["combined_amount"] = item3["specific_instances"][0]["amount"]
       end
     end
+
+    expired.each do |item3|
+      puts item3["specific_instances"].length
+      if item3["specific_instances"].length.to_i > 1
+        total = 0
+        unit = item3["unit"]
+        item3["specific_instances"].each do |item4|
+          total += item4["amount"].split(" ")[0].to_i
+        end
+        item3["combined_amount"] = total.to_s + " " + unit
+      else
+        item3["combined_amount"] = item3["specific_instances"][0]["amount"]
+      end
+    end
     puts "array"
     puts rtn
     puts "array"
-
-    return rtn
+    end
+    return {nonExpired: rtn, expired: expired }
   end
 
 
@@ -127,6 +183,7 @@ class User < ApplicationRecord
     end
   end
 
+  ##GET RID OF IF YOU IMPLMENT CALANDAR / edit
 
   def genNotes()
 
@@ -171,7 +228,64 @@ class User < ApplicationRecord
   end
 
   def genStats
-    return "hi"
+    puts "TJKHLKJH"
+    rtnObj = {
+      # january: {total: 0,wasted_num: 0,wasted: []},
+      # february: {total: 0,wasted_num: 0,wasted: []},
+      # march: {total: 0,wasted_num: 0,wasted: []},
+      # april: {total: 0,wasted_num: 0,wasted: []},
+      # may: {total: 0,wasted_num: 0,wasted: []},
+      # june: {total: 0,wasted_num: 0,wasted: []},
+      # july: {total: 0,wasted_num: 0,wasted: []},
+      # august: {total: 0,wasted_num: 0,wasted: []},
+      # september: {total: 0,wasted_num: 0,wasted: []},
+      # october: {total: 0,wasted_num: 0,wasted: []},
+      # november: {total: 0,wasted_num: 0,wasted: []},
+      # december: {total: 0,wasted_num: 0,wasted: []}
+      january: {total: 0,wasted: []},
+      february: {total: 0,wasted: []},
+      march: {total: 0,wasted: []},
+      april: {total: 0,wasted: []},
+      may: {total: 0,wasted: []},
+      june: {total: 0,wasted: []},
+      july: {total: 0,wasted: []},
+      august: {total: 0,wasted: []},
+      september: {total: 0,wasted: []},
+      october: {total: 0,wasted: []},
+      november: {total: 0,wasted: []},
+      december: {total: 0,wasted: []}
+    }
+
+    self.user_foods.each do |food|
+      obj = {}
+      obj["specifc_data"] = food
+      obj["food_data"] = Food.find(food.food_id)
+      puts food.expiration_date
+      puts food.updated_at
+      # puts food.expired
+      # puts food.expiration_date < food.updated_at
+      puts "YETTTTTT"
+      month = rtnObj.keys[food.created_at.month-1]
+      puts rtnObj[month][:total] += 1
+      puts food.created_at.month
+      puts "YETTTTTT"
+      if (!food.throw_away.nil? && food.throw_away > food.expiration_date) || (food.throw_away.nil? && food.active && food.expired)
+        puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!WASTED"
+        month2 = rtnObj.keys[food.expiration_date.month-1]
+        # rtnObj[month2][:wasted_num] += 1
+        rtnObj[month2][:wasted].push(obj)
+        puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!WASTED"
+      else
+        puts "expired and not wasted"
+
+      end
+
+
+    end
+
+    puts rtnObj
+    puts "TJKHLKJH"
+    return rtnObj
   end
 
 
