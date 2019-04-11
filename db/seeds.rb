@@ -27,7 +27,8 @@ csv = CSV.parse(csv_text, :headers => true)
 for x in (2...csv.count) do
   Food.find_or_create_by(name: csv[x]["Name"],
                          category: csv[x]["Categories"] ,
-                         default_expiration: "07/25/2020" )
+                         default_expiration: "07/25/2020",
+                         unit: "grams")
 end
 
 puts "Destroying all"
@@ -44,25 +45,30 @@ matthew = User.create(username: "mkay0961",
 
 mango = Food.create(name: "Mango",
                     category: "Produce" ,
-                    default_expiration: "07/25/2020" )
+                    default_expiration: "07/25/2020",
+                    unit: "mango" )
 
 spinach = Food.create(name: "Spinach",
                       category: "Produce" ,
-                      default_expiration: "07/25/2020" )
+                      default_expiration: "07/25/2020",
+                      unit: "cup" )
 
 bbqsauce = Food.create(name: "BBQ Sauce",
                       category: "Pantry" ,
-                      default_expiration: "07/25/2020" )
+                      default_expiration: "07/25/2020",
+                      unit: "cup" )
 
 
 chicken = Food.create(name: "Chicken",
                       category: "Poutry" ,
-                      default_expiration: "07/25/2020" )
+                      default_expiration: "07/25/2020",
+                      unit: "pound" )
 
 
 limes = Food.create(name: "Limes",
                     category: "Produce" ,
-                    default_expiration: "07/25/2020" )
+                    default_expiration: "07/25/2020",
+                    unit: "lime" )
 
 
 
@@ -79,7 +85,15 @@ userfood1 = UserFood.create(user_id: matthew.id,
 userfood2 = UserFood.create(user_id: matthew.id,
                         food_id: spinach.id,
                         active: true,
-                        amount: "1 bundle",
+                        amount: "2 cup",
+                        price: 5.00,
+                        expiration_date: "04/4/2019",
+                        expired: false)
+
+userfood2 = UserFood.create(user_id: matthew.id,
+                        food_id: spinach.id,
+                        active: true,
+                        amount: "3 cup",
                         price: 5.00,
                         expiration_date: "04/4/2019",
                         expired: false)
@@ -92,6 +106,14 @@ userfood3 = UserFood.create(user_id: matthew.id,
                         expiration_date: "04/4/2019",
                         expired: false)
 
+userfood3 = UserFood.create(user_id: matthew.id,
+                        food_id: chicken.id,
+                        active: true,
+                        amount: "6 pound",
+                        price: 13.00,
+                        expiration_date: "04/5/2019",
+                        expired: false)
+
 recipe1 = Recipe.create(title: "BBQ Chicken",
                        description: "Amazing chicken dish",
                        instructions:"1.Cut chicken 2.Cook chicken",
@@ -99,7 +121,7 @@ recipe1 = Recipe.create(title: "BBQ Chicken",
 
 rec1food1 = RecipeFood.create(recipe_id: recipe1.id,
                               food_id: bbqsauce.id,
-                              amount: "1 oz")
+                              amount: "1 cup")
 
 rec1food2 = RecipeFood.create(recipe_id: recipe1.id,
                               food_id: chicken.id,

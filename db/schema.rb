@@ -18,7 +18,8 @@ ActiveRecord::Schema.define(version: 2019_04_02_124518) do
   create_table "foods", force: :cascade do |t|
     t.string "name"
     t.string "category"
-    t.string "default_expiration"
+    t.date "default_expiration"
+    t.string "unit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -46,7 +47,7 @@ ActiveRecord::Schema.define(version: 2019_04_02_124518) do
     t.boolean "active"
     t.string "amount"
     t.decimal "price"
-    t.string "expiration_date"
+    t.date "expiration_date"
     t.boolean "expired"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

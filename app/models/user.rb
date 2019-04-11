@@ -33,8 +33,10 @@ class User < ApplicationRecord
       recipeObj["food"] = []
       recipe.recipe_foods.each_with_index do |item, i|
         foodObj = {}
+        food = Food.find(item.food_id)
         foodObj["food_id"]=item.food_id
-        foodObj["name"] = Food.find(item.food_id)["name"]
+        foodObj["name"] = food["name"]
+        foodObj["unit"] = food["unit"]
         foodObj["amount"] = item.amount
         recipeObj["food"].push(foodObj)
       end
@@ -45,16 +47,66 @@ class User < ApplicationRecord
 
   def genFoods(user)
     rtn = []
+    ids = []
+
     user.user_foods.each_with_index do |item, i|
-      obj = {}
+      # foodObj = {}
+      # dopObj = {}
       food = Food.find(item.food_id)
-      obj["food_id"] = item.food_id
-      obj["name"] = food["name"]
-      obj["category"] = food["category"]
-      obj["amount"] = item["amount"]
-      rtn.push(obj)
+      puts item.nil?
+      if (ids.include?(item.food_id))
+        dopObj = {}
+        rtn.each do |item2|
+          if(item.food_id == item2["food_id"])
+            dopObj["user_food_id"] = item.id
+            dopObj["amount"] = item["amount"]
+            dopObj["expiration_date"] = item["expiration_date"]
+            dopObj["price"] = item["price"]
+            dopObj["expired"] = item["expired"]
+            item2["specific_instances"].push(dopObj)
+          end
+        end
+
+      else
+        foodObj = {}
+        dopObj = {}
+        foodObj["specific_instances"] = []
+        foodObj["food_id"] = item.food_id
+        foodObj["name"] = food["name"]
+        foodObj["unit"] = food["unit"]
+        foodObj["category"] = food["category"]
+        # foodObj["combined_amount"] = "UPDATE ME"
+        dopObj["user_food_id"] = item.id
+        dopObj["amount"] = item["amount"]
+        dopObj["expired"] = item["expired"]
+        dopObj["expiration_date"] = item["expiration_date"]
+        foodObj["specific_instances"].push(dopObj)
+        rtn.push(foodObj)
+      end
+
+      ids.push(item.food_id)
+
     end
+    # byebug
+
+    rtn.each do |item3|
+      puts item3["specific_instances"].length
+      if item3["specific_instances"].length.to_i > 1
+        total = 0
+        unit = item3["unit"]
+        item3["specific_instances"].each do |item4|
+          total += item4["amount"].split(" ")[0].to_i
+        end
+        item3["combined_amount"] = total.to_s + " " + unit
+      else
+        item3["combined_amount"] = item3["specific_instances"][0]["amount"]
+      end
+    end
+    puts "array"
+    puts rtn
+    puts "array"
+
     return rtn
   end
-  
+
 end

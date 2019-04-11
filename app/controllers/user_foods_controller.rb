@@ -13,19 +13,19 @@ class UserFoodsController < ApplicationController
     if @user
       if(!params["food"].nil?)
         params["food"].each do |food|
-          foodItem = UserFood.find_by(user_id: @user.id,food_id: food["id"])
-          if(foodItem.nil?)
+          # foodItem = UserFood.find_by(user_id: @user.id,food_id: food["id"])
+          # if(foodItem.nil?)
             UserFood.create(user_id: @user.id,
                                     food_id: food["id"],
                                     active: food["active"],
                                     amount: food["amount"],
                                     price: food["price"],
-                                    expiration_date: food["expiration_date"],
+                                    expiration_date: food["expire_date"],
                                     expired: food["expired"])
-          else
-            newAmount = addAmount(foodItem.amount,food["amount"] )
-            foodItem.update(amount: newAmount)
-          end
+          # else
+          #   newAmount = addAmount(foodItem.amount,food["amount"] )
+          #   foodItem.update(amount: newAmount)
+          # end
         end
       end
       render json: @user.genUser()
@@ -36,23 +36,43 @@ class UserFoodsController < ApplicationController
     token = request.headers["Authentication"].split(' ')[1]
     payload = decode(token)
     @user = User.find(payload["user_id"])
-    if @user
+    puts @user
+    if (!@user.nil?)
       foods = params["food"]
-      puts foods
       if(!foods.nil?)
         foods.each do |food|
-          foodItem = UserFood.find_by(user_id: @user.id, food_id: food["food_id"])
-          newAmount = foodItem.amount.to_i-food["amount"].to_i
-          unit = food["amount"].split(" ")[1]
-          if(!(newAmount < 0) && newAmount != 0 )
-            foodItem.update(amount: "#{newAmount} #{unit}")
-          elsif(newAmount == 0)
-            foodItem.destroy
+
+          eatenAmount = food["to_be_eaten"].split(" ")[0].to_i
+          food["specific_instances"].each do |item|
+            unit = food["unit"]
+            puts item
+            puts "TEXT"
+            if(eatenAmount != 0)
+              thisAmount = item["amount"].split(" ")[0].to_i
+              id = item["user_food_id"]
+              if(eatenAmount - thisAmount >= 0)
+                puts "destory"
+
+                eatenAmount = eatenAmount - thisAmount
+                UserFood.find(id).destroy
+              elsif (eatenAmount - thisAmount < 0)
+                puts "update"
+
+                remainingAmount = thisAmount - eatenAmount
+                eatenAmount = 0
+                UserFood.find(id).update(amount: (remainingAmount.to_s + " " + unit))
+              end
+
+
+
+            end
           end
         end
+
       end
       render json: @user.genUser()
     end
+
+    end
+
   end
-  
-end
