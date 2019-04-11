@@ -27,7 +27,7 @@ csv = CSV.parse(csv_text, :headers => true)
 for x in (2...csv.count) do
   Food.find_or_create_by(name: csv[x]["Name"],
                          category: csv[x]["Categories"] ,
-                         default_expiration: "07/25/2020",
+                         default_expiration: "2020-4-4",
                          unit: "grams")
 end
 
@@ -45,29 +45,29 @@ matthew = User.create(username: "mkay0961",
 
 mango = Food.create(name: "Mango",
                     category: "Produce" ,
-                    default_expiration: "07/25/2020",
+                    default_expiration: "2020-4-4",
                     unit: "mango" )
 
 spinach = Food.create(name: "Spinach",
                       category: "Produce" ,
-                      default_expiration: "07/25/2020",
+                      default_expiration: "2020-4-4",
                       unit: "cup" )
 
 bbqsauce = Food.create(name: "BBQ Sauce",
                       category: "Pantry" ,
-                      default_expiration: "07/25/2020",
+                      default_expiration: "2020-4-4",
                       unit: "cup" )
 
 
 chicken = Food.create(name: "Chicken",
                       category: "Poutry" ,
-                      default_expiration: "07/25/2020",
+                      default_expiration: "2020-4-4",
                       unit: "pound" )
 
 
 limes = Food.create(name: "Limes",
                     category: "Produce" ,
-                    default_expiration: "07/25/2020",
+                    default_expiration: "2020-4-4",
                     unit: "lime" )
 
 

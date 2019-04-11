@@ -5,6 +5,7 @@ class CreateFoods < ActiveRecord::Migration[5.2]
       t.string :category
       t.date :default_expiration
       t.string :unit
+      t.string :image
 
       t.timestamps
     end

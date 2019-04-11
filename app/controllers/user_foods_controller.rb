@@ -15,13 +15,14 @@ class UserFoodsController < ApplicationController
         params["food"].each do |food|
           # foodItem = UserFood.find_by(user_id: @user.id,food_id: food["id"])
           # if(foodItem.nil?)
+
             UserFood.create(user_id: @user.id,
                                     food_id: food["id"],
                                     active: food["active"],
                                     amount: food["amount"],
                                     price: food["price"],
                                     expiration_date: food["expire_date"],
-                                    expired: food["expired"])
+                                    expired: false)
           # else
           #   newAmount = addAmount(foodItem.amount,food["amount"] )
           #   foodItem.update(amount: newAmount)

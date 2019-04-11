@@ -5,6 +5,7 @@ class AuthController < ApplicationController
     if @user && @user.authenticate(params[:password])
       payload = {user_id: @user.id}
       token = encode(payload)
+      @user.checkExpire()
       render json: {
         message: "Authenticated! You are logged in",
         authenticated: true,
@@ -18,5 +19,5 @@ class AuthController < ApplicationController
       }, status: :not_acceptable
     end
   end
-  
+
 end

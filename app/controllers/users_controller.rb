@@ -5,6 +5,7 @@ class UsersController < ApplicationController
     payload = decode(token)
     @user = User.find(payload["user_id"])
     if @user
+      @user.checkExpire()
       render json: @user.genUser()
     end
   end

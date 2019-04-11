@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2019_04_02_124518) do
     t.string "category"
     t.date "default_expiration"
     t.string "unit"
+    t.string "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
