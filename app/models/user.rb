@@ -20,7 +20,12 @@ class User < ApplicationRecord
     newUser["recipes"] = genRecipes()
     newUser["notes"] = genNotes()
     newUser["stats"] = genStats()
+    newUser["poss_recipes"] = genPossRecipes()
     return newUser
+  end
+  #
+  def genPossRecipes
+    return "meh"
   end
 
   def genRecipes()
