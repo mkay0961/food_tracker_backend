@@ -91,7 +91,7 @@ userfood2 = UserFood.create(user_id: matthew.id,
                         price: 5.00,
                         expiration_date: DateTime.now,
                         expired: false)
-# 1000.times do
+# 500.times do
 userfood2 = UserFood.create(user_id: matthew.id,
                         food_id: spinach.id,
                         active: true,

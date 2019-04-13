@@ -8,5 +8,7 @@ Rails.application.routes.draw do
   delete '/user_recipes', to: 'user_recipes#destroy'
   get '/users', to: 'users#show'
   patch '/user_foods/eat', to: 'user_foods#eat'
+  delete '/user_foods', to: 'user_foods#trash'
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

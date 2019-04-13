@@ -18,7 +18,8 @@ class User < ApplicationRecord
     newUser["profile_image"] = self.profile_image
     newUser["foods"] = genFoods()
     newUser["recipes"] = genRecipes()
-    newUser["notes"] = genNotes()
+    # newUser["notes"] = genNotes()
+    # newUser["calander_data"] = genCal()
     newUser["stats"] = genStats()
     newUser["poss_recipes"] = genPossRecipes()
     return newUser
@@ -54,11 +55,16 @@ class User < ApplicationRecord
 
 
 
+
+
+
   def genFoods()
     expired = []
+    notActive = []
     rtn = []
     ids = []
     ids2 = []
+    ids3 = []
 
     self.user_foods.each_with_index do |item, i|
       # foodObj = {}
@@ -137,6 +143,48 @@ class User < ApplicationRecord
       end
 
       ids2.push(item.food_id)
+
+    elsif(!item.active && item["expiration_date"].month >= DateTime.now.month)
+      puts "not active"
+      puts "HELLOOOOOOOOOOOOOOOOOOOOO"
+      puts DateTime.now.month
+      puts item["expiration_date"].month >= DateTime.now.month
+      puts "HELLOOOOOOOOOOOOOOOOOOOOO"
+      if (ids3.include?(item.food_id) )
+        dopObj = {}
+        expired.each do |item2|
+          if(item.food_id == item2["food_id"])
+            dopObj["user_food_id"] = item.id
+            dopObj["amount"] = item["amount"]
+            dopObj["expiration_date"] = item["expiration_date"]
+            dopObj["price"] = item["price"]
+            # dopObj["expired"] = DateTime.now > item["expiration_date"].to_datetime
+            dopObj["expired"] = item["expired"]
+            item2["specific_instances"].push(dopObj)
+          end
+        end
+
+      else
+        foodObj = {}
+        dopObj = {}
+        foodObj["specific_instances"] = []
+        foodObj["food_id"] = item.food_id
+        foodObj["name"] = food["name"]
+        foodObj["unit"] = food["unit"]
+        foodObj["image"] = food["image"]
+        foodObj["category"] = food["category"]
+        # foodObj["combined_amount"] = "UPDATE ME"
+        dopObj["user_food_id"] = item.id
+        dopObj["amount"] = item["amount"]
+        # dopObj["expired"] = DateTime.now > item["expiration_date"].to_datetime
+        dopObj["expired"] = item["expired"]
+        dopObj["expiration_date"] = item["expiration_date"]
+        foodObj["specific_instances"].push(dopObj)
+        notActive.push(foodObj)
+      end
+
+      ids3.push(item.food_id)
+
     end
 
     # byebug
@@ -168,11 +216,26 @@ class User < ApplicationRecord
         item3["combined_amount"] = item3["specific_instances"][0]["amount"]
       end
     end
+
+    notActive.each do |item3|
+      puts item3["specific_instances"].length
+      if item3["specific_instances"].length.to_i > 1
+        total = 0
+        unit = item3["unit"]
+        item3["specific_instances"].each do |item4|
+          total += item4["amount"].split(" ")[0].to_i
+        end
+        item3["combined_amount"] = total.to_s + " " + unit
+      else
+        item3["combined_amount"] = item3["specific_instances"][0]["amount"]
+      end
+    end
+
     puts "array"
     puts rtn
     puts "array"
     end
-    return {nonExpired: rtn, expired: expired }
+    return {nonExpired: rtn, expired: expired, notActive: notActive }
   end
 
 
@@ -195,9 +258,9 @@ class User < ApplicationRecord
     #refactor dont need all info
     rtnObj = {}
     rtnObj["within_current_month"] = []
-    rtnObj["within_week"] =  []
-    rtnObj["tomorrow"] = []
     rtnObj["today"] = []
+    rtnObj["tomorrow"] = []
+    rtnObj["within_week"] = []
     self.user_foods.each do |food|
       if(food.expired == false)
         obj = {}
@@ -223,7 +286,7 @@ class User < ApplicationRecord
         elsif week
           puts "expires within a week"
           rtnObj["within_week"].push(obj)
-        elsif month
+      elsif month
           puts "expires within this month"
           rtnObj["within_current_month"].push(obj)
         end
