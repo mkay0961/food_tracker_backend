@@ -21,7 +21,7 @@ class User < ApplicationRecord
     # newUser["notes"] = genNotes()
     # newUser["calander_data"] = genCal()
     newUser["stats"] = genStats()
-    newUser["poss_recipes"] = genPossRecipes()
+    # newUser["poss_recipes"] = genPossRecipes()
     return newUser
   end
   #
@@ -63,8 +63,6 @@ class User < ApplicationRecord
     notActive = []
     rtn = []
     ids = []
-    ids2 = []
-    ids3 = []
 
     self.user_foods.each_with_index do |item, i|
       # foodObj = {}
@@ -92,6 +90,7 @@ class User < ApplicationRecord
         foodObj["specific_instances"] = []
         foodObj["food_id"] = item.food_id
         foodObj["name"] = food["name"]
+        foodObj["expired"] = false
         foodObj["unit"] = food["unit"]
         foodObj["image"] = food["image"]
         foodObj["category"] = food["category"]
@@ -109,7 +108,7 @@ class User < ApplicationRecord
 
     elsif(item.active && item.expired)
       puts "not active"
-      if (ids2.include?(item.food_id) )
+      if (ids.include?(item.food_id) )
         dopObj = {}
         expired.each do |item2|
           if(item.food_id == item2["food_id"])
@@ -129,6 +128,7 @@ class User < ApplicationRecord
         foodObj["specific_instances"] = []
         foodObj["food_id"] = item.food_id
         foodObj["name"] = food["name"]
+        foodObj["expired"] = true
         foodObj["unit"] = food["unit"]
         foodObj["image"] = food["image"]
         foodObj["category"] = food["category"]
@@ -142,7 +142,7 @@ class User < ApplicationRecord
         expired.push(foodObj)
       end
 
-      ids2.push(item.food_id)
+      ids.push(item.food_id)
 
     elsif(!item.active && item["expiration_date"].month >= DateTime.now.month)
       puts "not active"
@@ -150,7 +150,7 @@ class User < ApplicationRecord
       puts DateTime.now.month
       puts item["expiration_date"].month >= DateTime.now.month
       puts "HELLOOOOOOOOOOOOOOOOOOOOO"
-      if (ids3.include?(item.food_id) )
+      if (ids.include?(item.food_id) )
         dopObj = {}
         expired.each do |item2|
           if(item.food_id == item2["food_id"])
@@ -183,7 +183,7 @@ class User < ApplicationRecord
         notActive.push(foodObj)
       end
 
-      ids3.push(item.food_id)
+      ids.push(item.food_id)
 
     end
 
@@ -231,8 +231,7 @@ class User < ApplicationRecord
       end
     end
 
-    puts "array"
-    puts rtn
+
     puts "array"
     end
     return {nonExpired: rtn, expired: expired, notActive: notActive }
@@ -351,7 +350,7 @@ class User < ApplicationRecord
 
     end
 
-    puts rtnObj
+    # puts rtnObj
     puts "TJKHLKJH"
     return rtnObj
   end

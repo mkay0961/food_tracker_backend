@@ -77,8 +77,13 @@ class UserFoodsController < ApplicationController
 
 
     def trash
-
-
+      token = request.headers["Authentication"].split(' ')[1]
+      payload = decode(token)
+      @user = User.find(payload["user_id"])
+      if (!@user.nil?)
+        UserFood.find(params["user_food"]).update(active: false, throw_away: DateTime.now)
+      end
+      render json: @user.genUser()
     end
 
   end
