@@ -121,27 +121,53 @@ puts "hu"
 #                         expiration_date: DateTime.now,
 #                         expired: false)
 # end
-75.times do
+80.times do
   f = Food.find(rand(1..Food.all.count))
 userfood2 = UserFood.create(user_id: matthew.id,
                         food_id: f.id,
                         active: true,
                         amount: "#{rand(1..15)} #{f.unit}" ,
-                        price: 5.00,
+                        price: "#{rand(1..30)}.#{rand(1..99)}",
                         expiration_date: Faker::Date.forward(130),
                         expired: false)
 end
 
-15.times do
+20.times do
   f = Food.find(rand(1..Food.all.count))
+
+d = Faker::Date.backward(90)
 userfood2 = UserFood.create(user_id: matthew.id,
                         food_id: f.id,
                         active: true,
                         amount: "#{rand(1..15)} #{f.unit}" ,
-                        price: 5.00,
-                        expiration_date: Faker::Date.backward(75),
+                        price: "#{rand(1..30)}.#{rand(1..99)}",
+                        expiration_date: Faker::Date.between(d, Date.today),
+                        created_at: d,
                         expired: false)
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # userfood3 = UserFood.create(user_id: matthew.id,
 #                         food_id: chicken.id,
 #                         active: true,

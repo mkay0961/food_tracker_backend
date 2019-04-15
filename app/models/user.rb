@@ -243,8 +243,11 @@ class User < ApplicationRecord
     for i in foodsToCheck
       puts "FOOOOOD"
       puts i.expiration_date
-      if(DateTime.now.day > i.expiration_date.to_datetime.day)
+
+      if(DateTime.now > i.expiration_date.to_datetime)
         i.update(expired: true)
+      # else
+      #   i.update(expired: false)
       end
       puts "FOOOOOD"
     end
@@ -327,6 +330,7 @@ class User < ApplicationRecord
       obj = {}
       obj["specifc_data"] = food
       obj["food_data"] = Food.find(food.food_id)
+      if(food.food.created_at.year == DateTime.now.year)
       puts food.expiration_date
       puts food.updated_at
       # puts food.expired
@@ -346,7 +350,7 @@ class User < ApplicationRecord
         puts "expired and not wasted"
 
       end
-
+    end
 
     end
 
