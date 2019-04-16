@@ -13,8 +13,6 @@ class UserFoodsController < ApplicationController
     if @user
       if(!params["food"].nil?)
         params["food"].each do |food|
-          # foodItem = UserFood.find_by(user_id: @user.id,food_id: food["id"])
-          # if(foodItem.nil?)
 
             UserFood.create(user_id: @user.id,
                                     food_id: food["id"],
@@ -23,10 +21,7 @@ class UserFoodsController < ApplicationController
                                     price: food["price"],
                                     expiration_date: food["expire_date"],
                                     expired: false)
-          # else
-          #   newAmount = addAmount(foodItem.amount,food["amount"] )
-          #   foodItem.update(amount: newAmount)
-          # end
+
         end
       end
       render json: @user.genUser()
@@ -37,43 +32,31 @@ class UserFoodsController < ApplicationController
     token = request.headers["Authentication"].split(' ')[1]
     payload = decode(token)
     @user = User.find(payload["user_id"])
-    puts @user
     if (!@user.nil?)
       foods = params["food"]
       if(!foods.nil?)
         foods.each do |food|
-
           eatenAmount = food["to_be_eaten"].split(" ")[0].to_i
           food["specific_instances"].each do |item|
             unit = food["unit"]
-            puts item
-            puts "TEXT"
             if(eatenAmount != 0)
               thisAmount = item["amount"].split(" ")[0].to_i
               id = item["user_food_id"]
               if(eatenAmount - thisAmount >= 0)
-                puts "destory"
-
                 eatenAmount = eatenAmount - thisAmount
                 UserFood.find(id).update(active: false)
               elsif (eatenAmount - thisAmount < 0)
-                puts "update"
-
                 remainingAmount = thisAmount - eatenAmount
                 eatenAmount = 0
                 UserFood.find(id).update(amount: (remainingAmount.to_s + " " + unit))
               end
-
-
-
             end
           end
         end
-
       end
       render json: @user.genUser()
     end
-    end
+  end
 
 
     def trash
