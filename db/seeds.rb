@@ -17,6 +17,7 @@ puts "Done destroying, starting to seed"
 
 for x in (2...csv.count) do
   Food.find_or_create_by(name: csv[x]["Name"],
+                         image: csv[x]["Image"].split("(")[1].split(")")[0],
                          category: csv[x]["Categories"] ,
                          default_expiration: Faker::Date.forward(130),
                          unit: "oz")
