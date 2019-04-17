@@ -29,7 +29,7 @@ matthew = User.create(username: "mkay0961",
                       first_name: "Matthew",
                       last_name: "Kay",
                       email: "mkay0961@gmail.com",
-                      profile_image: "blank")
+                      profile_image: "https://media.licdn.com/dms/image/C5603AQHANqr1xr397g/profile-displayphoto-shrink_200_200/0?e=1560988800&v=beta&t=IKTdRqSV9InwuWjgJ1VCHjUHGeG2xMsPC1I0S6WQQlI")
 
 80.times do
   f = Food.find(rand(1..Food.all.count))
