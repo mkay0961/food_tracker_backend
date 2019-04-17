@@ -88,6 +88,7 @@ class User < ApplicationRecord
         foodObj["category"] = food["category"]
         dopObj["user_food_id"] = item.id
         dopObj["amount"] = item["amount"]
+        dopObj["price"] = item["price"]
         dopObj["expired"] = item["expired"]
         dopObj["expiration_date"] = item["expiration_date"]
         foodObj["specific_instances"].push(dopObj)
@@ -122,6 +123,7 @@ class User < ApplicationRecord
         foodObj["category"] = food["category"]
         dopObj["user_food_id"] = item.id
         dopObj["amount"] = item["amount"]
+        dopObj["price"] = item["price"]
         dopObj["expired"] = item["expired"]
         dopObj["expiration_date"] = item["expiration_date"]
         foodObj["specific_instances"].push(dopObj)
@@ -155,6 +157,7 @@ class User < ApplicationRecord
         foodObj["category"] = food["category"]
         dopObj["user_food_id"] = item.id
         dopObj["amount"] = item["amount"]
+        dopObj["price"] = item["price"]
         dopObj["expired"] = item["expired"]
         dopObj["expiration_date"] = item["expiration_date"]
         foodObj["specific_instances"].push(dopObj)
