@@ -12,14 +12,14 @@ class UserFoodsController < ApplicationController
     @user = User.find(payload["user_id"])
     if @user
       if(!params["food"].nil?)
-        params["food"].each do |food|
 
+        params["food"].each do |afood|
             UserFood.create(user_id: @user.id,
-                                    food_id: food["id"],
+                                    food_id: afood["id"],
                                     active: true,
-                                    amount: food["amount"],
-                                    price: food["price"],
-                                    expiration_date: food["expire_date"],
+                                    amount: afood["amount"],
+                                    price: afood["price"],
+                                    expiration_date: afood["expire_date"],
                                     expired: false)
 
         end

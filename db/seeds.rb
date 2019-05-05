@@ -40,7 +40,7 @@ matthew = User.create(username: "mkay0961",
                       first_name: "Matthew",
                       last_name: "Kay",
                       email: "mkay0961@gmail.com",
-                      profile_image: "https://media.licdn.com/dms/image/C5603AQHANqr1xr397g/profile-displayphoto-shrink_200_200/0?e=1560988800&v=beta&t=IKTdRqSV9InwuWjgJ1VCHjUHGeG2xMsPC1I0S6WQQlI")
+                      profile_image: "https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwippLGB_4TiAhUBc98KHQgADL8QjRx6BAgBEAU&url=https%3A%2F%2Fpixabay.com%2Fvectors%2Fblank-profile-picture-mystery-man-973460%2F&psig=AOvVaw020zWVl8QuhwYEpPEa0szD&ust=1557166397257655")
 
 80.times do
   f = Food.find(rand(1..Food.all.count))
